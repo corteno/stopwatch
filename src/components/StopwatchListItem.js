@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 class StopwatchListItem extends Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class StopwatchListItem extends Component {
         this.state = {
             name: '',
             time: 0,
-            displayTime: '00:00'
+            displayTime: '00:00',
+            isInput: false
         };
 
         this.interval = null;
@@ -62,11 +64,30 @@ class StopwatchListItem extends Component {
 
     };
 
+    onNameClick = () => {
+        this.setState({isInput: true});
+    };
+
+    onInputBlur = () => {
+        this.setState({isInput: false});
+    };
+
+
     render() {
 
         return (
             <li className="stopwatch-list-item">
-                <div className="stopwatch-title">{this.state.name}</div>
+                {this.state.isInput
+                    ? <input
+                        className="stopwatch-title"
+                        type="text"
+                        defaultValue={this.state.name}
+                        autoFocus={true}
+                        onBlur={ () => this.onInputBlur()}
+                    />
+                    : <div className="stopwatch-title" onClick={event => this.onNameClick(event)}>{this.state.name}</div>
+                }
+
                 <div className="stopwatch-timer">{this.state.displayTime}</div>
                 <div className="stopwatch-start stopwatch-button"
                      onClick={() => {
@@ -85,5 +106,7 @@ class StopwatchListItem extends Component {
 
 
 }
+
+
 
 export default StopwatchListItem;

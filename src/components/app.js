@@ -13,19 +13,19 @@ class App extends Component {
 
     addStopwatch = () => {
         this.props.addStopwatch({
+            id: shortid.generate(),
             name: 'Stopper',
             time: 0
         });
     };
 
-    renderStopWatches = () => {
+    renderStopwatches = () => {
         if(this.props.watches.length > 0) {
             return this.props.watches.map((watch) => {
-                let id = shortid.generate();
                 return (
                     <StopwatchListItem
-                        key={id}
-                        id={id}
+                        key={watch.id}
+                        id={watch.id}
                         name={watch.name}
                         time={watch.time}
                     />
@@ -45,7 +45,7 @@ class App extends Component {
 
                 <section className="stopwatch-wrapper">
                     <ul className="stopwatch-list col">
-                        {this.renderStopWatches()}
+                        {this.renderStopwatches()}
                     </ul>
                 </section>
             </div>
@@ -53,8 +53,10 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {watches: state.watches}
+
+//This way it doesn't rerender
+const mapStateToProps = ({watches}, ownProps) => {
+    return {watches: watches}
 };
 
 export default connect(mapStateToProps, {addStopwatch})(App);

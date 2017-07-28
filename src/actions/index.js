@@ -12,7 +12,7 @@ export const addStopwatch = (stopwatch) => {
 };
 
 const createToken = (watch) => {
-    if(localStorage.getItem('watches')){
+    if(localStorage.getItem('watches') == null){
 
         return jwt.sign({
             watches: [
