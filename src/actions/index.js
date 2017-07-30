@@ -3,31 +3,33 @@ import jwt from 'jsonwebtoken';
 export const ADD_STOPWATCH = 'add_stopwatch';
 
 export const addStopwatch = (stopwatch) => {
-    const watch = localStorage.setItem('user', createToken(stopwatch));
+    localStorage.getItem('watches') === null
+        ? console.log(createToken(stopwatch))
+        : addToToken(localStorage.getItem('watches'), stopwatch);
+
+    localStorage.setItem('watches', createToken(stopwatch));
 
     return {
         type: ADD_STOPWATCH,
-        payload:  stopwatch
+        payload: stopwatch
     }
 };
 
 const createToken = (watch) => {
-    if(localStorage.getItem('watches') == null){
+    return jwt.sign({
+        watches: [
+            watch
+        ]
+    }, 'secret');
 
-        return jwt.sign({
-            watches: [
-                watch
-            ]
-        }, 'secret');
+};
 
-    } else {
+const addToToken = (token, watch) => {
+    let t = jwt.decode(token);
+    console.log('token', t);
 
-        let watches = localStorage.getItem('watches');
-        console.log('watches', watches);
-
-    }
-    
-    /*let token = jwt.sign({
-        watches: [...watches, watch]
-    })*/
+    t.watches.push(watch);
+    localStorage.removeItem('watches');
+    localStorage.setItem('watches', jwt.sign(t, 'secret'));
+    console.log(localStorage.getItem('watches'));
 };

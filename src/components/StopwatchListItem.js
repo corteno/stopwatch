@@ -68,8 +68,23 @@ class StopwatchListItem extends Component {
         this.setState({isInput: true});
     };
 
-    onInputBlur = () => {
-        this.setState({isInput: false});
+    onInputBlur = (e) => {
+        console.log(e.target.value);
+
+        if(e.target.value !== ''){
+            this.setState({name: e.target.value}, () => {
+                this.setState({isInput: false});
+            });
+        } else {
+            this.setState({isInput: false});
+        }
+
+
+    };
+
+    onKeyPress = (e) => {
+        if(e.key === 'Enter') this.onInputBlur(e)
+
     };
 
 
@@ -79,11 +94,12 @@ class StopwatchListItem extends Component {
             <li className="stopwatch-list-item">
                 {this.state.isInput
                     ? <input
-                        className="stopwatch-title"
+                        className="stopwatch-input"
                         type="text"
-                        defaultValue={this.state.name}
                         autoFocus={true}
-                        onBlur={ () => this.onInputBlur()}
+                        onBlur={(event) => this.onInputBlur(event)}
+                        onKeyPress={this.onKeyPress}
+                        placeholder={this.state.name}
                     />
                     : <div className="stopwatch-title" onClick={event => this.onNameClick(event)}>{this.state.name}</div>
                 }
