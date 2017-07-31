@@ -60,12 +60,27 @@ button:focus{
     outline: none;
 }
 
+.title-wrapper{
+    margin-bottom: 15px;
+}
+
 .app-title{
     font-family: RobotoLight;
     font-weight: 400;
 
     margin:0;
     padding: 15px 0 15px 20px;
+    padding-bottom: 0;
+}
+
+.app-subtitle{
+    margin: 0;
+    font-weight: 400;
+    font-family: RobotoLight;
+    font-size: 16px;
+
+    margin-top: -5px;
+    padding-left: 20px;
 }
 
 .add-button{

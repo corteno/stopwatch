@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 
 class StopwatchListItem extends Component {
     constructor(props) {
@@ -8,6 +7,7 @@ class StopwatchListItem extends Component {
         this.state = {
             name: '',
             time: 0,
+            id: '',
             displayTime: '00:00',
             isInput: false
         };
@@ -18,7 +18,8 @@ class StopwatchListItem extends Component {
     componentDidMount() {
         this.setState({
             name: this.props.name,
-            time: this.props.time
+            time: this.props.time,
+            id: this.props.id
         });
 
     }
@@ -69,13 +70,23 @@ class StopwatchListItem extends Component {
     };
 
     onInputBlur = (e) => {
-        console.log(e.target.value);
 
         if(e.target.value !== ''){
             this.setState({name: e.target.value}, () => {
+                this.props.updateWatch({
+                    name: this.state.name,
+                    id: this.state.id,
+                    time: this.state.time
+                });
                 this.setState({isInput: false});
+
             });
         } else {
+            this.props.updateWatch({
+                name: this.state.name,
+                id: this.state.id,
+                time: this.state.time
+            });
             this.setState({isInput: false});
         }
 
